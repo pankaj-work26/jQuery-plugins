@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<link rel="stylesheet" href="jQuery/aos.css" />
+   
+    
+    <script src="jQuery/aos.js"></script>    
+    <script src="jQuery/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <style type="text/css">
+            body, html {
+                height: 100%;
+            }
+
+            #wrapper {
+                height: 400%;
+             }
+
+              div.fade-in{
+    -webkit-transform: translate3d(0,-60%,0);
+    transform: translate3d(0,60%,0);
+}
+
+div.fade-down {
+    -webkit-transform: translate3d(0,60%,0);
+    transform: translate3d(0,-60%,0);
+}
+
+div.in-view {
+    -webkit-transform: translate3d(0,60%,0);
+    transform: translate3d(0,10px,0);
+    transition: transform 1.8s cubic-bezier(.19,1,.22,1),-webkit-transform 1.8s cubic-bezier(.19,1,.22,1);
+}
+
+
+
+
+            .tester {
+                margin-top:100px;
+                width: 300px;
+                height: 300px;
+                background: none repeat scroll 0 0 yellow;
+                border: 5px solid black;
+            }
+        </style>
+        <div id="wrapper">
+            <div class="tester" ><div class="viewport-transform"> 
+                </div></div>
+            <div class="tester" ><div class="viewport-transform"> 
+                </div></div>
+            <div class="tester" ><div class="viewport-transform"> 
+                </div></div>
+            <div class="tester" ><div class="viewport-transform"> 
+                </div></div>
+            <div class="tester" ><div class="viewport-transform"> 
+                </div></div>
+            
+        </div>
+
+        <script>
+               var dist = 100;
+
+            window.onscroll = function () {
+                
+                jQuery('.tester').each(function(){
+                   
+                    var above = checkVisible(this, dist, 'above');
+                var below = checkVisible(this, dist, 'below');
+ 
+                this.style.backgroundColor = checkVisible(this, dist) ? 'yellow' : 'white';
+                });
+                
+             };
+
+           
+
+            function checkVisible(elm, threshold, mode) {
+                threshold = threshold || 0;
+                mode = mode || 'visible';
+
+                var rect = elm.getBoundingClientRect();
+                var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+                var above = rect.bottom - threshold < 0;
+                var below = rect.top - viewHeight + threshold >= 0;
+  jQuery(elm).removeClass('fade-down');
+   jQuery(elm).removeClass('fade-in');
+    jQuery(elm).removeClass('in-view');
+if(above){
+      jQuery(elm).addClass('fade-down');
+}else if(below){
+    jQuery(elm).addClass('fade-in');
+}else{
+    jQuery(elm).addClass('in-view');
+}
+                return mode === 'above' ? above : (mode === 'below' ? below : !above && !below);
+            }
+            
+              
+
+        </script>
+    </body>
+</html>
